@@ -3,10 +3,11 @@ const db = require("../data/db-config.js");
 module.exports = {
   find,
   findById,
-  findSteps,
-  addSteps,
+  // findSteps,
+  add,
+  // addSteps,
   update,
-  updateSteps,
+  // updateSteps,
   remove,
 };
 function find() {
@@ -16,15 +17,42 @@ function find() {
 function findById(id) {
   return db("schemes").where({ id }).first();
 }
-//not accurate, just using placeholders
-function findSteps(id) {
-  return db("schemes")
-    .join("steps", "schemes.id", "steps.scheme_id")
-    .select("steps.id AS id", "step_number", "scheme_name", "instructions")
-    .where({ scheme_id: id });
+//needs work
+function add() {
+  return db("schemes").insert();
 }
 
-function addSteps(id) {}
-function update() {}
-function updateSteps() {}
-function remove() {}
+function update(id, changes) {
+  return db("schemes").where({ id }).update(changes);
+}
+
+function remove(id) {
+  return db("schemes").where({ id }).del();
+}
+// //steps functions
+// function findSteps(id) {
+//   return db("schemes")
+//     .join("steps", "schemes.id", "steps.scheme_id")
+//     .select("steps.id AS id", "step_number", "scheme_name", "instructions")
+//     .where({ scheme_id: id });
+// }
+
+// function updateSteps(id) {
+//   return db("steps")
+//     .where({ id })
+//     .update(req.body)
+//     .then((step) => {
+//       if (step) {
+//         res.json({ updated: step });
+//       } else {
+//         res.status(404).json({ message: "invalid ID" });
+//       }
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: "error updating steps", err });
+//     });
+// }
+
+// function addSteps(id) {
+//   return db("steps").where({ id }.insert(req.body));
+// }
