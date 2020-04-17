@@ -3,7 +3,7 @@ const db = require("../data/db-config.js");
 module.exports = {
   find,
   findById,
-  // findSteps,
+  findSteps,
   add,
   // addSteps,
   update,
@@ -18,8 +18,8 @@ function findById(id) {
   return db("schemes").where({ id }).first();
 }
 //needs work
-function add() {
-  return db("schemes").insert();
+function add(schemeData) {
+  return db("schemes").insert(schemeData);
 }
 
 function update(id, changes) {
@@ -29,13 +29,13 @@ function update(id, changes) {
 function remove(id) {
   return db("schemes").where({ id }).del();
 }
-// //steps functions
-// function findSteps(id) {
-//   return db("schemes")
-//     .join("steps", "schemes.id", "steps.scheme_id")
-//     .select("steps.id AS id", "step_number", "scheme_name", "instructions")
-//     .where({ scheme_id: id });
-// }
+//steps functions
+function findSteps(id) {
+  return db("schemes")
+    .join("steps", "schemes.id", "steps.scheme_id")
+    .select("steps.id AS id", "step_number", "scheme_name", "instructions")
+    .where({ scheme_id: id });
+}
 
 // function updateSteps(id) {
 //   return db("steps")
